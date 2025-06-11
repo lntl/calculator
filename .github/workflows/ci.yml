@@ -5,8 +5,7 @@ on:
     branches: [ main ]
 
 jobs:
-  # Étape 1 : Test simple avec une seule version
-  test-simple:
+  test-unitaire:
     runs-on: ubuntu-latest
     
     steps:
@@ -26,3 +25,9 @@ jobs:
     
     - name: Exécution des tests
       run: pytest
+
+  trivy_scan:
+    stage: test
+    image: aquasec/trivy:0.20.0
+    script:
+      - trivy --exit-code 1 --severity HIGH,CRITICAL image your-image:latest
